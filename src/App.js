@@ -1,22 +1,21 @@
-
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import Login from './components/Login.js';
+import SignUp from './components/SignUp.js';
+import Transactions from './components/Transactions.js';
+import Incomes from './components/Incomes.js';
+import Outcomes from './components/Outcomes.js';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+<BrowserRouter>
+  <Routes>
+    <Route path="/" element={<Login />} />
+    <Route path="/sign-up" element={<SignUp />} />
+    <Route path="/transactions" element={<Transactions />} />
+    <Route path="/income" element={<Incomes />} />
+    <Route path="/outcome" element={<Outcomes />} />
+  </Routes>
+</BrowserRouter>
   );
 }
 
