@@ -1,13 +1,69 @@
+import { useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
+
+    const navigate = useNavigate();
+    const [loginInfo, setloginInfo] = useState({
+        email: "",
+        password: ""
+    })
+
+    function sendUserData(e) {
+        e.preventDefault();
+        const URL = "localhost:5000/sign-in";
+        const promise = axios.post(URL, loginInfo);
+        promise.then(goToToday);
+        promise.catch(handleError)
+    }
+
+    function goToToday(response) {
+        localStorage.setItem("token", response.data.token);
+        navigate("/transactions");
+    }
+
+    function handleError(error) {
+        let message = ""
+        if (error.response.status === 401 || error.response.status === 422) {
+            message = "E-mail ou senha incorretos";
+        } else {
+            message = error.response.data
+        }
+        alert(`${error.response.status} - ${message}`);
+    }
+
+    function showField(field) {
+        switch (field) {
+            case "email":
+                return loginInfo.email;
+            case "senha":
+                return loginInfo.password;
+            default:
+                return "";
+        }
+    }
+
+    function modifyField(e, field) {
+        switch (field) {
+            case "email":
+                setloginInfo({ ...loginInfo, email: e.target.value })
+                break
+            case "senha":
+                setloginInfo({ ...loginInfo, password: e.target.value })
+                break
+            default:
+                break;
+        }
+    }
+
     return (
         <Container>
             <h1>MyWallet</h1>
-            <form>
-                <input type="email" placeholder="E-mail" />
-                <input type="password" placeholder="Senha" />
+            <form onSubmit={sendUserData}>
+                <input type="email" placeholder="E-mail" value={showField("email")} onChange={(e) => modifyField(e, "email")} required />
+                <input type="password" placeholder="Senha" value={showField("senha")} onChange={(e) => modifyField(e, "senha")} required />
                 <button type="submit">Entrar</button>
             </form>
             <Link to="/sign-up" style={{ textDecoration: 'none' }}><p>Primeira vez? Cadastre-se!</p></Link>
