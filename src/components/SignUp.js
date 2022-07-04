@@ -18,7 +18,7 @@ function SignUp() {
             alert("A senha confirmada não corresponde à nova senha");
             return
         }
-        const URL = "http://localhost:5000/sign-up";
+        const URL = "https://projeto13-mywallet-back-milene.herokuapp.com/sign-up";
         const promise = axios.post(URL, {
             name:newUserData.name,
             email:newUserData.email,

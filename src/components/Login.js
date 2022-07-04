@@ -13,7 +13,7 @@ function Login() {
 
     function sendUserData(e) {
         e.preventDefault();
-        const URL = "http://localhost:5000/login";
+        const URL = "https://projeto13-mywallet-back-milene.herokuapp.com/login";
         const promise = axios.post(URL, loginInfo);
         promise.then(goToToday);
         promise.catch(handleError)

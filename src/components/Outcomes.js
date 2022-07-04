@@ -14,7 +14,7 @@ function Outcomes() {
 
     function sendNewTransaction(e) {
         e.preventDefault();
-        const URL = "http://localhost:5000/transactions";
+        const URL = "https://projeto13-mywallet-back-milene.herokuapp.com/transactions";
         const config = {
             headers: {
                 Authorization: `Bearer: ${token}`
