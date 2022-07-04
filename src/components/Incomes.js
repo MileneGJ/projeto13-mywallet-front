@@ -20,13 +20,13 @@ function Incomes () {
                 Authorization:`Bearer: ${token}`
             }
         }
-        const promise = axios.post(URL, config, { ...newTransaction, type:"income" });
+        const promise = axios.post(URL, { ...newTransaction}, config);
         promise.then(()=>navigate("/transactions"));
         promise.catch(handleError)
     }
 
     function handleError(error) {
-        alert(`${error.response.status} - ${error.response.data}`);
+        console.log(error.response.status,error.response.data);
     }
 
     function showField(field) {

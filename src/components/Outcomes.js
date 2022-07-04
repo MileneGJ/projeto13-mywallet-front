@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
-import {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 function Outcomes() {
     const navigate = useNavigate();
@@ -9,24 +9,24 @@ function Outcomes() {
     const [newTransaction, setNewTransaction] = useState({
         value: "",
         description: "",
-        type:"saída"
+        type: "saída"
     })
 
     function sendNewTransaction(e) {
         e.preventDefault();
         const URL = "http://localhost:5000/transactions";
         const config = {
-            headers:{
-                Authorization:`Bearer: ${token}`
+            headers: {
+                Authorization: `Bearer: ${token}`
             }
         }
-        const promise = axios.post(URL, config, { ...newTransaction, type:"income" });
-        promise.then(()=>navigate("/transactions"));
+        const promise = axios.post(URL, { ...newTransaction }, config);
+        promise.then(() => navigate("/transactions"));
         promise.catch(handleError)
     }
 
     function handleError(error) {
-        alert(`${error.response.status} - ${error.response.data}`);
+        console.log(error.response.status, error.response.data);
     }
 
     function showField(field) {
@@ -56,8 +56,8 @@ function Outcomes() {
     return (
         <Container>
             <h1>Nova saída</h1>
-            <form onSumbit={sendNewTransaction}>
-                <input type="currency" placeholder="Valor" value={showField("valor")} onChange={(e) => modifyField(e, "valor")} required />
+            <form onSubmit={sendNewTransaction}>
+                <input type="price" placeholder="Valor" value={showField("valor")} onChange={(e) => modifyField(e, "valor")} required />
                 <input type="text" placeholder="Descrição" value={showField("descrição")} onChange={(e) => modifyField(e, "descrição")} required />
                 <button type="submit">Salvar saída</button>
             </form>

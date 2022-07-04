@@ -17,6 +17,7 @@ function Transactions() {
         }
         const promise = axios.get(URL,config)
         promise.then(response => {
+            console.log(response.data)
             setUserData({ ...response.data })
         })
         promise.catch(error => {
@@ -41,9 +42,9 @@ function Transactions() {
                 <ion-icon name="log-out-outline"></ion-icon>
             </Header>
             <History>
-                {userData.transactions?.length > 0 ?
+                {userData.transactions?.length>0?
                     userData.transactions.map(t =>
-                        <Transaction value={t.value} description={t.description} />
+                        <Transaction value={t.value} description={t.description} type={t.type} />
                     )
                     :
                     "Não há registros de\n entrada ou saída"}
