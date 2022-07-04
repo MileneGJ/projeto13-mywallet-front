@@ -14,7 +14,10 @@ function SignUp() {
 
     function sendNewUserData(e) {
         e.preventDefault();
-        verifyPassword();
+        if(newUserData.password!==newUserData.passwordConfirm){
+            alert("A senha confirmada não corresponde à nova senha");
+            return
+        }
         const URL = "http://localhost:5000/sign-up";
         const promise = axios.post(URL, {
             name:newUserData.name,
@@ -25,14 +28,10 @@ function SignUp() {
         promise.catch(handleError);
     }
 
-    function verifyPassword(){
-        if(newUserData.password!==newUserData.passwordConfirm){
-            alert("A senha confirmada não corresponde à nova senha");
-            setNewUserData({...newUserData,password:"",passwordConfirm:""});
-        }
-    }
     function handleError(error) {
-        alert(`${error.response.status} - ${error.response.data}`);
+        if(error.response.status===422){
+            alert("Campo email inválido")
+        }
     }
 
     function showField(field) {

@@ -26,7 +26,9 @@ function Incomes () {
     }
 
     function handleError(error) {
-        console.log(error.response.status,error.response.data);
+        if(error.response.status===422){
+            alert("Campo valor deve vir com R$ e vírgula para casas decimais")
+        }
     }
 
     function showField(field) {

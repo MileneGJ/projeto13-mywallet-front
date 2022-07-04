@@ -25,13 +25,9 @@ function Login() {
     }
 
     function handleError(error) {
-        let message = ""
         if (error.response.status === 401 || error.response.status === 422) {
-            message = "E-mail ou senha incorretos";
-        } else {
-            message = error.response.data
-        }
-        alert(`${error.response.status} - ${message}`);
+            alert("E-mail ou senha incorretos");
+        } 
     }
 
     function showField(field) {

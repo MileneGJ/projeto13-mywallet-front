@@ -17,7 +17,6 @@ function Transactions() {
         }
         const promise = axios.get(URL, config)
         promise.then(response => {
-            console.log(response.data)
             setUserData({ ...response.data })
         })
         promise.catch(error => {
@@ -65,7 +64,7 @@ function Transactions() {
                                 type={t.type} />
                         )
                         :
-                        "Não há registros de\n entrada ou saída"}
+                        <p>Não há registros de<br/> entrada ou saída</p>}
                 </ul>
                 {userData.transactions?.length > 0 ?
                     <span>
@@ -120,6 +119,7 @@ ion-icon{
 const History = styled.div`
 display:flex;
 width:100%;
+overflow-y: scroll;
 flex-direction:column;
 justify-content:${({ listing }) => listing === "Y" ? "space-between" : "center"};
 align-items:center;
@@ -132,6 +132,13 @@ font-size:20px;
 color:#868686;
 ul{
     width:100%;
+    ${({listing})=>listing==="N"?
+    `display:flex;
+    flex-direction:column;
+    text-align:center;
+    line-height:30px;
+    align-items:center;`
+    :""}
 }
 li{
     display:flex;
