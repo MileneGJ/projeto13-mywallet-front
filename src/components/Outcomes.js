@@ -1,12 +1,64 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+import {useState} from 'react';
 
 function Outcomes() {
+    const navigate = useNavigate();
+    const token = localStorage.getItem("token");
+    const [newTransaction, setNewTransaction] = useState({
+        value: "",
+        description: "",
+        type:"saída"
+    })
+
+    function sendNewTransaction(e) {
+        e.preventDefault();
+        const URL = "http://localhost:5000/transactions";
+        const config = {
+            headers:{
+                Authorization:`Bearer: ${token}`
+            }
+        }
+        const promise = axios.post(URL, config, { ...newTransaction, type:"income" });
+        promise.then(()=>navigate("/transactions"));
+        promise.catch(handleError)
+    }
+
+    function handleError(error) {
+        alert(`${error.response.status} - ${error.response.data}`);
+    }
+
+    function showField(field) {
+        switch (field) {
+            case "valor":
+                return newTransaction.value;
+            case "descrição":
+                return newTransaction.description;
+            default:
+                return "";
+        }
+    }
+
+    function modifyField(e, field) {
+        switch (field) {
+            case "valor":
+                setNewTransaction({ ...newTransaction, value: e.target.value })
+                break
+            case "descrição":
+                setNewTransaction({ ...newTransaction, description: e.target.value })
+                break
+            default:
+                break;
+        }
+    }
+
     return (
         <Container>
             <h1>Nova saída</h1>
-            <form>
-                <input type="currency" placeholder="Valor" />
-                <input type="text" placeholder="Descrição" />
+            <form onSumbit={sendNewTransaction}>
+                <input type="currency" placeholder="Valor" value={showField("valor")} onChange={(e) => modifyField(e, "valor")} required />
+                <input type="text" placeholder="Descrição" value={showField("descrição")} onChange={(e) => modifyField(e, "descrição")} required />
                 <button type="submit">Salvar saída</button>
             </form>
         </Container>
@@ -22,6 +74,10 @@ h1{
     font-weight:bold;
     margin-bottom:20px;
     height:44px;
+}
+form{
+    display:flex;
+    flex-direction:column;
 }
 input{
     height:60px;

@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom';
 
 function SignUp() {
-
     const navigate = useNavigate();
     const [newUserData, setNewUserData] = useState({
         email: "",
@@ -15,12 +14,23 @@ function SignUp() {
 
     function sendNewUserData(e) {
         e.preventDefault();
-        const URL = "localhost:5000/sign-up";
-        const promise = axios.post(URL, newUserData);
+        verifyPassword();
+        const URL = "http://localhost:5000/sign-up";
+        const promise = axios.post(URL, {
+            name:newUserData.name,
+            email:newUserData.email,
+            password:newUserData.password
+        });
         promise.then(() => navigate("/"));
         promise.catch(handleError);
     }
 
+    function verifyPassword(){
+        if(newUserData.password!==newUserData.passwordConfirm){
+            alert("A senha confirmada não corresponde à nova senha");
+            setNewUserData({...newUserData,password:"",passwordConfirm:""});
+        }
+    }
     function handleError(error) {
         alert(`${error.response.status} - ${error.response.data}`);
     }
@@ -33,7 +43,7 @@ function SignUp() {
                 return newUserData.password;
             case "nome":
                 return newUserData.name;
-            case "foto":
+            case "senhaConfirm":
                 return newUserData.passwordConfirm;
             default:
                 return "";

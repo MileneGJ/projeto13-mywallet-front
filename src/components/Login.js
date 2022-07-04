@@ -13,7 +13,7 @@ function Login() {
 
     function sendUserData(e) {
         e.preventDefault();
-        const URL = "localhost:5000/sign-in";
+        const URL = "http://localhost:5000/login";
         const promise = axios.post(URL, loginInfo);
         promise.then(goToToday);
         promise.catch(handleError)
@@ -21,7 +21,7 @@ function Login() {
 
     function goToToday(response) {
         localStorage.setItem("token", response.data.token);
-        navigate("/transactions");
+        navigate(`/transactions`);
     }
 
     function handleError(error) {
