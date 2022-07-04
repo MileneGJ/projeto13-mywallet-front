@@ -98,6 +98,8 @@ box-sizing:border-box;
 h1{
     font-family:'Saira Stencil One', cursive;
     color:#FFFFFF;
+    font-size:32px;
+    line-height:80px;
 }
 form{
     display:flex;
@@ -130,6 +132,7 @@ button{
 p{
     font-size:15px;
     color:#FFFFFF;
+    line-height:60px;
     font-weight:bold;
 }
 `
